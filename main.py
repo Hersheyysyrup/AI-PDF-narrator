@@ -3,6 +3,7 @@ from text_splitters.splitters import split_documents
 from embeddings.embeddings import get_embedding_model
 from vector_store.chroma import create_vector_store
 from retriever.retriever import get_mmr_retriever
+from gen_ai.gen import generate_answer
 
 pdf_path = "data/rag.pdf"
 
@@ -19,9 +20,19 @@ vector_store = create_vector_store(chunks, embedding_model)
 print("Vector store created")
 
 retriever = get_mmr_retriever(vector_store)
-docs = retriever.invoke("What is modular RAG?")  
 
-for i, doc in enumerate(docs):
-    print(f"Document {i+1}:")
-    print(doc.page_content)
-    print("\n---\n")
+question = "What is modular RAG?"
+
+docs = retriever.invoke(question)
+
+context = "\n\n".join(
+    doc.page_content for doc in docs
+)
+
+answer = generate_answer(
+    context,
+    question
+)
+
+print("\nAnswer:")
+print(answer)
