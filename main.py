@@ -5,7 +5,7 @@ from vector_store.chroma import create_vector_store
 from retriever.retriever import get_mmr_retriever
 from gen_ai.gen import generate_answer
 
-pdf_path = "data/rag.pdf"
+pdf_path = "AI PDF narrator/data/rag.pdf"
 
 documents = load_pdf(pdf_path)
 print(f"Loaded {len(documents)} pages")
@@ -19,20 +19,26 @@ print("Embedding Model Loaded")
 vector_store = create_vector_store(chunks, embedding_model)
 print("Vector store created")
 
-retriever = get_mmr_retriever(vector_store)
+def ask(question,retriever):
+    docs = retriever.invoke(question)
+    context = "\n\n".join(
+        doc.page_content for doc in docs
+        )
+    answer = generate_answer(context,question)
+    return answer
 
-question = "What is modular RAG?"
+def main():
+    retriever = get_mmr_retriever(vector_store)
 
-docs = retriever.invoke(question)
+    print("Ask questions about your PDF. Type'exit' to quit.\n")
+    while True:
+        question = input("Ask a Question: ")
+        if question.lower() in ("exit","quit", "q"):
+            print("Goodbye!")
+            break
 
-context = "\n\n".join(
-    doc.page_content for doc in docs
-)
+        answer = ask(question, retriever)
+        print(f"\nAnswer : {answer}\n")
 
-answer = generate_answer(
-    context,
-    question
-)
-
-print("\nAnswer:")
-print(answer)
+if __name__ == "__main__":
+    main()
