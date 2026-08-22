@@ -6,6 +6,7 @@ from embeddings.embeddings import get_embedding_model
 from vector_store.chroma import ( create_vector_store)
 from retriever.retriever import get_mmr_retriever
 from gen_ai.gen import generate_answer
+from coqui import speak, play_audio
 
 CHROMA_DB_DIR = "chroma_db"
 
@@ -61,3 +62,16 @@ def main():
 
 if __name__ == "__main__":
     main()  
+
+def ask(question,retriever):
+
+    docs = retriever.invoke(question)
+
+    context = "\n".join([doc.page_content for doc in docs])
+
+    answer = generate_answer(context, question)
+
+    audio_path = speak(answer)
+    play_audio(audio_path)
+
+    return answer
