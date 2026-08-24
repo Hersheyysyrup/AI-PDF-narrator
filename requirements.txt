@@ -1,0 +1,10 @@
+langchain
+langchain-core
+langchain-community
+langchain-huggingface
+langchain-chroma
+langchain-google-genai
+pymupdf
+coqui-tts
+python-dotenv
+google-genai

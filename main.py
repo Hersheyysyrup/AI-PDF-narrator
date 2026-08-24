@@ -6,7 +6,7 @@ from embeddings.embeddings import get_embedding_model
 from vector_store.chroma import ( create_vector_store)
 from retriever.retriever import get_mmr_retriever
 from gen_ai.gen import generate_answer
-from coqui import speak, play_audio
+from coqui.tts import speak, play_audio
 
 CHROMA_DB_DIR = "chroma_db"
 
