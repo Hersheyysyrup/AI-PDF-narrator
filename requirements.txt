@@ -8,3 +8,6 @@ pymupdf
 coqui-tts
 python-dotenv
 google-genai
+pytesseract
+pdf2image
+Pillow

@@ -1,6 +1,7 @@
 import os
 import shutil
 from document_loaders.pdf import load_pdf
+from document_loaders.ocr import pdf_load_ocr
 from text_splitters.splitters import split_documents
 from embeddings.embeddings import get_embedding_model
 from vector_store.chroma import ( create_vector_store)
@@ -18,7 +19,7 @@ def ingest_pdf(pdf_path):
     if os.path.exists(CHROMA_DB_DIR):
         shutil.rmtree(CHROMA_DB_DIR)
 
-    documents = load_pdf(pdf_path)
+    documents = pdf_load_ocr(pdf_path)
     print(f"Loaded {len(documents)} pages")
 
     chunks = split_documents(documents)
