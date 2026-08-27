@@ -8,8 +8,8 @@ load_dotenv()
 gemini_api_key = os.getenv("GEMINI_API_KEY")   
 gemini_client = genai.Client(api_key=gemini_api_key)
 
-openai_api_key = os.getenv("OPENAI_API_KEY")
-openai_client = OpenAI(api_key = openai_api_key)
+groq_api_key = os.getenv("GROQ_API_KEY")
+groq_client = OpenAI(api_key = groq_api_key)
 
 def build_prompt (context,question):
     return f"""Use the context below to answer the user's question. The context comes from a PDF that the user is reading.
@@ -37,7 +37,7 @@ def generate_answer(context, question):
 
     try:
 
-        # Primary: Gemini
+        # GEMINI main
         response = gemini_client.models.generate_content(
             model="gemini-3.6-flash",
             contents=prompt
@@ -49,9 +49,9 @@ def generate_answer(context, question):
 
         print(f"[Gemini failed: {exp}] Falling back to OpenAI...")
 
-        # Fallback: OpenAI
-        response = openai_client.responses.create(
-            model="gpt-5-mini",
+        # GROQ FALLBACK
+        response = groq_client.responses.create(
+            model="openai/gpt-oss-20b",
             messages = [{"role": "user", "content": prompt}]
         )
 
