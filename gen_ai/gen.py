@@ -12,11 +12,19 @@ openai_api_key = os.getenv("OPENAI_API_KEY")
 openai_client = OpenAI(api_key = openai_api_key)
 
 def build_prompt (context,question):
-    return f"""Use the context below to answer the question. The context is from a PDF the user is reading
+    return f"""Use the context below to answer the user's question. The context comes from a PDF that the user is reading.
 
-    If the context fully answers the question answer it 
-    If the question asks about something connected to the context but not explicitly stated in it , you may use your own knowledge to make that connection
-    If the context is completely unrelated to the question, say so and answer from general knowledge instead
+Treat the provided PDF context as the primary source of truth.
+
+Follow these rules:
+
+If the answer is directly supported by the PDF context, answer using the information from the PDF.
+If the question is related to the PDF but requires a basic explanation, definition, example, or connection that is not explicitly stated in the PDF, you may use your general knowledge to provide a helpful explanation. Clearly distinguish this additional information from what is stated in the PDF.
+Do not contradict, modify, or replace information provided by the PDF with your general knowledge.
+If the PDF provides only part of the answer, use the PDF information first and supplement it with relevant general knowledge when necessary.
+If the question is completely unrelated to the PDF, answer it using general knowledge, but make it clear that the answer is not based on the PDF.
+Do not invent information or claim that something is stated in the PDF when it is not.
+Keep the answer relevant to the user's question and the PDF's context.
 
     Context : {context}
 
