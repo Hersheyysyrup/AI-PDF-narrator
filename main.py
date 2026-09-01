@@ -36,8 +36,13 @@ def ask(question , retriever):
     docs = retriever.invoke(question)
 
     context = "\n".join([doc.page_content for doc in docs])
+    answer = generate_answer(context, question)
 
-    return generate_answer(context, question)
+    audio_path = speak(answer)
+    if audio_path:
+        play_audio(audio_path)
+
+    return answer
 
 def main():
 
@@ -64,15 +69,3 @@ def main():
 if __name__ == "__main__":
     main()  
 
-def ask(question,retriever):
-
-    docs = retriever.invoke(question)
-
-    context = "\n".join([doc.page_content for doc in docs])
-
-    answer = generate_answer(context, question)
-
-    audio_path = speak(answer)
-    play_audio(audio_path)
-
-    return answer
