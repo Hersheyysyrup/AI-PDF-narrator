@@ -13,8 +13,8 @@ def handle_upload(pdf_file):
     if pdf_file is None:
         return "Please upload a file"
 
-    documents = pdf_load_ocr(pdf_file.name)
-    embedding_model = get_embedding_model()
+    documents = pdf_load_ocr(pdf_file.name)  #load and use OCR
+    embedding_model = get_embedding_model()  #load embedding model
     chunks = split_documents(documents)
     vector_store = create_vector_store(chunks, embedding_model)
 
@@ -24,10 +24,21 @@ def handle_upload(pdf_file):
 
 def handle_question(question):
     retriever = current_retriever["retriever"]
-    docs = retriever.get_relevant_documents(question)
+
+# to check if pdf has been uploaded or not
+    if retriever is None:
+        return "Please upload a PDF first", None
+
+    if not question or not question.strip():
+        return "Please enter a question", None
+    
+    docs = retriever.invoke(question)
+
     context = "\n".join(doc.page_content for doc in docs)
     answer = generate_answer(question, context)
 
+ # answer to speech conversion 
+ 
     audio_path = speak(answer)
 
     return answer, audio_path
