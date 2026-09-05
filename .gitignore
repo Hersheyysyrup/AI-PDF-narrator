@@ -19,6 +19,9 @@ vector_store/
 temp_uploads/
 output_audio/
 
+#streamlit
+.agents/
+
 #model
 coqui/
 *.bin
