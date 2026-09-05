@@ -1,19 +1,33 @@
 __pycache__/
 *.py[cod]
+*.pyo
 
+# Virtual environment
 .venv/
 venv/
 env/
 
-.vscode/
-
+#api keys
 .env
+.env.*
 
+#database and vector store
 chroma_db/
-output_audio/
-*.wav
+vector_store/
 
-data/*.pdf
+#temp files
+temp_uploads/
+output_audio/
+
+#model
+coqui/
+*.bin
+*.pt
+*.pth
+*.onnx
 
 .DS_Store
 Thumbs.db
+
+.vscode/
+.idea/

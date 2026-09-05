@@ -12,7 +12,7 @@ def pdf_load_ocr(pdf_path):
     pages = convert_from_path (
         pdf_path, 
         dpi=300,
-        poppler_path= r"C:\Users\Harshit\Downloads\Release-26.02.0-0\poppler-26.02.0\Library\bin" )
+        poppler_path= r"D:\poppler-26.07.0\Library\bin" )
 
     documents = []
 
@@ -37,12 +37,3 @@ def pdf_load_ocr(pdf_path):
     return documents 
 
 
-#temperory working 
-if __name__ == "__main__":
-    pdf_path = r"C:\Users\Harshit\OneDrive\Attachments\Desktop\RAG.pdf"
-
-    documents = pdf_load_ocr(pdf_path)
-
-    print("Number of documents:", len(documents))
-    print("First page text:")
-    print(documents[0].page_content[:1000])
